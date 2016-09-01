@@ -50,3 +50,13 @@ project(":backends/libgdx") {
         compile "com.badlogicgames.gdx:gdx-freetype:$gdxVersion"
     }
 }
+
+project(":backends/headless") {
+    apply plugin: "java"
+    targetCompatibility = 1.6
+    sourceCompatibility = 1.6
+
+    dependencies {
+        compile project(':core')
+    }
+}
