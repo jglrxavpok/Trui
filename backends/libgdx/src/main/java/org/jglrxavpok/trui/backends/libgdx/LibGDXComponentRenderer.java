@@ -1,5 +1,6 @@
 package org.jglrxavpok.trui.backends.libgdx;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import org.jglrxavpok.trui.TruiContext;
@@ -21,12 +22,13 @@ public class LibGDXComponentRenderer implements ComponentRenderer {
     @Override
     public void renderComponent(TruiComponent component) {
         // TODO: find better suited way to handle component types
+        float height = Gdx.graphics.getHeight(); // TODO: better handle y inversion
         if(component instanceof TruiLabel) {
             TruiLabel label = ((TruiLabel) component);
             LibGDXFont font = (LibGDXFont)label.getFont();
             BitmapFont bitmapFont = font.getBitmapFont();
             bitmapFont.setColor(label.getTextColor().getRed(), label.getTextColor().getGreen(), label.getTextColor().getBlue(), label.getTextColor().getAlpha());
-            bitmapFont.draw(spriteBatch, label.getText(), label.getPosition().x, label.getPosition().y);
+            bitmapFont.draw(spriteBatch, label.getText(), label.getPosition().x, height-label.getPosition().y-1f);
         }
     }
 
