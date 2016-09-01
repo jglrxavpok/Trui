@@ -1,6 +1,7 @@
 package org.jglrxavpok.trui;
 
 import com.google.common.eventbus.EventBus;
+import org.jglrxavpok.trui.backends.*;
 import org.jglrxavpok.trui.components.TruiComponent;
 import org.jglrxavpok.trui.components.TruiPanel;
 import org.jglrxavpok.trui.components.TruiScreen;
@@ -17,9 +18,13 @@ public class TruiContext {
     private final TruiScreen defaultScreen;
     private final EventBus eventBus;
     private final List<TruiComponent> registred;
+    private final FontCache fontCache;
     private float width;
     private float height;
     private TruiScreen currentScreen;
+    private TruiBackend backend;
+    private ComponentRenderer componentRenderer;
+    private TruiFontFactory fontFactory;
 
     public TruiContext(float contextWidth, float contextHeight) {
         this.width = contextWidth;
@@ -28,6 +33,13 @@ public class TruiContext {
         registred = new LinkedList<TruiComponent>();
         defaultScreen = new TruiScreen();
         setCurrentScreen(defaultScreen);
+        fontCache = new FontCache();
+    }
+
+    public void setBackend(TruiBackend backend) {
+        this.backend = backend;
+        componentRenderer = backend.createComponentRenderer(this);
+        fontFactory = backend.createFontFactory(this, fontCache);
     }
 
     public TruiScreen getDefaultScreen() {
@@ -121,5 +133,30 @@ public class TruiContext {
 
     public void setHeight(float height) {
         this.height = height;
+    }
+
+    public TruiFont getFont(String name, int size) {
+        if(fontFactory == null)
+            throw new NullPointerException("No font factory registred with context. Probably that no backend has been set");
+        return fontFactory.getFont(name, size);
+    }
+
+    public void renderAll() {
+        if(componentRenderer == null)
+            throw new NullPointerException("No component renderer registred with context. Probably that no backend has been set");
+        componentRenderer.startRendering();
+        renderPanel(getCurrentScreen());
+        componentRenderer.endRendering();
+    }
+
+    private void renderPanel(TruiPanel panel) {
+        for(TruiComponent c : panel.getChildren()) {
+            if(c instanceof TruiPanel) {
+                renderPanel(panel);
+            } else {
+                componentRenderer.renderComponent(c);
+            }
+        }
+        componentRenderer.renderComponent(panel);
     }
 }

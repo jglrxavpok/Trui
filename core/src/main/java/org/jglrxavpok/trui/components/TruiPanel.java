@@ -33,14 +33,36 @@ public class TruiPanel extends TruiComponent {
      * @param component
      *          The subcomponent to add
      * @return
-     *          This panel for chaining
+     *          The child for chaining
      */
-    public TruiPanel addChild(TruiComponent component) {
+    public <T extends TruiComponent> T addChild(T component) {
         if(children.contains(component))
             throw new IllegalStateException("A panel cannot hold the same component twice");
         component.setParent(this);
         component.setContext(getContext());
         children.add(component);
+        layout.applyChildrenLayout();
+        notifyContextHierarchyChange();
+        return component;
+    }
+
+    public TruiPanel removeChild(TruiComponent component) {
+        if(children.contains(component)) {
+            component.setParent(null);
+            component.setContext(null);
+        }
+        children.remove(component);
+        layout.applyChildrenLayout();
+        notifyContextHierarchyChange();
+        return this;
+    }
+
+    public TruiPanel clear() {
+        for(TruiComponent component : children) {
+            component.setParent(null);
+            component.setContext(null);
+        }
+        children.clear();
         layout.applyChildrenLayout();
         notifyContextHierarchyChange();
         return this;
