@@ -17,6 +17,7 @@ public class DesktopTestApplication implements ApplicationListener {
         context.setBackend(new LibGDXBackend()); // TODO: find another way to set the backend ?
 
         context.setCurrentScreen(new TestScreen());
+        Gdx.input.setInputProcessor(new TestInputProcessor(context));
     }
 
     @Override
@@ -34,12 +35,12 @@ public class DesktopTestApplication implements ApplicationListener {
 
     @Override
     public void pause() {
-
+        context.loseFocus();
     }
 
     @Override
     public void resume() {
-
+        context.gainFocus();
     }
 
     @Override

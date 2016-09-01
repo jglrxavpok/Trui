@@ -5,6 +5,8 @@ import org.jglrxavpok.trui.backends.*;
 import org.jglrxavpok.trui.components.TruiComponent;
 import org.jglrxavpok.trui.components.TruiPanel;
 import org.jglrxavpok.trui.components.TruiScreen;
+import org.jglrxavpok.trui.events.FocusGainedEvent;
+import org.jglrxavpok.trui.events.FocusLostEvent;
 import org.jglrxavpok.trui.events.UIEvent;
 
 import java.util.LinkedList;
@@ -158,5 +160,13 @@ public class TruiContext {
             }
         }
         componentRenderer.renderComponent(panel);
+    }
+
+    public void loseFocus() {
+        fireEvent(new FocusLostEvent());
+    }
+
+    public void gainFocus() {
+        fireEvent(new FocusGainedEvent());
     }
 }
