@@ -2,6 +2,7 @@ package org.jglrxavpok.trui.components;
 
 import org.jglrxavpok.trui.layouts.AbsoluteLayout;
 import org.jglrxavpok.trui.layouts.Layout;
+import org.joml.Vector2f;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,14 +15,30 @@ public class TruiPanel extends TruiComponent {
 
     private Layout layout;
     private List<TruiComponent> children;
+    private Vector2f margins;
 
     /**
      * Creates a new empty panel with an {@link AbsoluteLayout}
      */
     public TruiPanel() {
         super();
+        margins = new Vector2f(10);
         children = new ArrayList<TruiComponent>();
         layout = new AbsoluteLayout(this);
+    }
+
+    public Vector2f getMargins() {
+        return margins;
+    }
+
+    public TruiPanel setMargins(Vector2f margins) {
+        return setMargins(margins.x, margins.y);
+    }
+
+    public TruiPanel setMargins(float horizontal, float vertical) {
+        margins.set(horizontal, vertical);
+        invalidate();
+        return this;
     }
 
     public List<TruiComponent> getChildren() {
