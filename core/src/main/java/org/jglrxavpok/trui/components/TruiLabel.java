@@ -48,6 +48,8 @@ public class TruiLabel extends TruiComponent {
     private void resize() {
         if(text != null && font != null) {
             setPreferredSize(font.getTextWidth(text), font.getTextHeight(text));
+            setMinSize(getPreferredSize());
+            setMaxSize(getPreferredSize());
             invalidateHierarchy();
         }
     }

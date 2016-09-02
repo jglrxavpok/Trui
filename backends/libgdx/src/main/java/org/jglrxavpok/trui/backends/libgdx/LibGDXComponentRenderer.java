@@ -1,22 +1,27 @@
 package org.jglrxavpok.trui.backends.libgdx;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import org.jglrxavpok.trui.TruiContext;
 import org.jglrxavpok.trui.backends.ComponentRenderer;
 import org.jglrxavpok.trui.backends.TruiFont;
 import org.jglrxavpok.trui.backends.libgdx.fonts.LibGDXFont;
+import org.jglrxavpok.trui.components.TruiButton;
 import org.jglrxavpok.trui.components.TruiComponent;
 import org.jglrxavpok.trui.components.TruiLabel;
 
 public class LibGDXComponentRenderer implements ComponentRenderer {
     private final TruiContext context;
     private final SpriteBatch spriteBatch;
+    private final Texture testTexture;
 
-    public LibGDXComponentRenderer(TruiContext context) {
+    public LibGDXComponentRenderer(TruiContext context, SpriteBatch spriteBatch) {
         this.context = context;
-        spriteBatch = new SpriteBatch();
+        this.spriteBatch = spriteBatch;
+
+        testTexture = new Texture("test_pic.png");
     }
 
     @Override
@@ -29,6 +34,10 @@ public class LibGDXComponentRenderer implements ComponentRenderer {
             BitmapFont bitmapFont = font.getBitmapFont();
             bitmapFont.setColor(label.getTextColor().getRed(), label.getTextColor().getGreen(), label.getTextColor().getBlue(), label.getTextColor().getAlpha());
             bitmapFont.draw(spriteBatch, label.getText(), label.getPosition().x, height-label.getPosition().y-1f);
+        } else if(component instanceof TruiButton) {
+            TruiButton button = ((TruiButton) component);
+            // TODO: change to user-defined textures
+            spriteBatch.draw(testTexture, button.getPosition().x, height-button.getPosition().y-1f-button.getSize().y, button.getSize().x, button.getSize().y);
         }
     }
 

@@ -27,6 +27,7 @@ public class TruiContext {
     private TruiBackend backend;
     private ComponentRenderer componentRenderer;
     private TruiFontFactory fontFactory;
+    private TruiComponent focused;
 
     public TruiContext(float contextWidth, float contextHeight) {
         this.width = contextWidth;
@@ -127,6 +128,10 @@ public class TruiContext {
 
     public void setWidth(float width) {
         this.width = width;
+        if(getCurrentScreen() != null) {
+            getCurrentScreen().setSize(width, height);
+            getCurrentScreen().invalidateHierarchy();
+        }
     }
 
     public float getHeight() {
@@ -135,6 +140,10 @@ public class TruiContext {
 
     public void setHeight(float height) {
         this.height = height;
+        if(getCurrentScreen() != null) {
+            getCurrentScreen().setSize(width, height);
+            getCurrentScreen().invalidateHierarchy();
+        }
     }
 
     public TruiFont getFont(String name, int size) {
@@ -152,14 +161,14 @@ public class TruiContext {
     }
 
     private void renderPanel(TruiPanel panel) {
+        componentRenderer.renderComponent(panel); // render behind everything
         for(TruiComponent c : panel.getChildren()) {
             if(c instanceof TruiPanel) {
-                renderPanel(panel);
+                renderPanel((TruiPanel) c);
             } else {
                 componentRenderer.renderComponent(c);
             }
         }
-        componentRenderer.renderComponent(panel);
     }
 
     public void loseFocus() {
@@ -168,5 +177,17 @@ public class TruiContext {
 
     public void gainFocus() {
         fireEvent(new FocusGainedEvent());
+    }
+
+    public void focusOn(TruiComponent component) {
+        focused = component;
+    }
+
+    public void unfocusFromAll() {
+        focused = null;
+    }
+
+    public TruiComponent getFocusedComponent() {
+        return focused;
     }
 }

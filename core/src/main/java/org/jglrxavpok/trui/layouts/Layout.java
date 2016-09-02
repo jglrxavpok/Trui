@@ -43,7 +43,7 @@ public abstract class Layout {
 
         float width = maxX - minX;
         float height = maxY - minY;
-        owner.setPreferredSize(width, height);
+        owner.setPreferredSize(width+owner.getMargins().x*2f, height+owner.getMargins().y*2f);
         owner.invalidateHierarchy();
     }
 

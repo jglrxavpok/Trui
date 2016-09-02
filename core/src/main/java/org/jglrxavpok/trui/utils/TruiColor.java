@@ -45,4 +45,32 @@ public class TruiColor {
     public void setAlpha(float alpha) {
         this.alpha = alpha;
     }
+
+    public int getARGBInt() {
+        return getAlphaInt() << 24 | getRedInt() << 16 | getGreenInt() << 8 | getBlueInt();
+    }
+
+    public int getRedInt() {
+        return (int) (red * 255) & 0xFF;
+    }
+
+    public int getBlueInt() {
+        return (int) (blue * 255) & 0xFF;
+    }
+
+    public int getGreenInt() {
+        return (int) (green * 255) & 0xFF;
+    }
+
+    public int getAlphaInt() {
+        return (int) (alpha * 255) & 0xFF;
+    }
+
+    public static TruiColor opaqueBlack() {
+        return new TruiColor(0,0,0,1);
+    }
+
+    public static TruiColor opaqueWhite() {
+        return new TruiColor(1,1,1,1);
+    }
 }

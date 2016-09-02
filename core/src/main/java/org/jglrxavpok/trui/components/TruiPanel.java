@@ -60,6 +60,7 @@ public class TruiPanel extends TruiComponent {
         children.add(component);
         layout.applyChildrenLayout();
         notifyContextHierarchyChange();
+        component.invalidate();
         return component;
     }
 
@@ -102,15 +103,17 @@ public class TruiPanel extends TruiComponent {
         for (TruiComponent c : children) {
             c.invalidate();
         }
+        layout.applyChildrenLayout();
         return this;
     }
 
     @Override
     public TruiPanel invalidateHierarchy() {
         super.invalidateHierarchy();
-        layout.applyChildrenLayout();
         return this;
     }
+
+
 
     /**
      * Returns itself for chaining

@@ -3,6 +3,7 @@ package org.jglrxavpok.trui.events;
 /**
  * Represents a single UI event such as mouse clicks, mouse movements, key presses/releases, etc.
  */
+// TODO: Pool events
 public abstract class UIEvent {
 
     private boolean cancelled;

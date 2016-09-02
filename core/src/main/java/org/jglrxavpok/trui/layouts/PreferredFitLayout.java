@@ -90,13 +90,13 @@ public class PreferredFitLayout extends Layout {
         float currentWidth = 0f;
         List<TruiComponent> rowList = new LinkedList<TruiComponent>();
         for(TruiComponent c : owner.getChildren()) {
-            if(currentWidth + owner.getSize().x + horizontalSpacing > owner.getSize().x+owner.getMargins().x*2) {
+            if(currentWidth + owner.getPreferredSize().x + horizontalSpacing > owner.getSize().x+owner.getMargins().x*2) {
                 currentY += move(rowList, xCentered, startX+owner.getMargins().x*2, currentY, widthReduction, direction, currentWidth)+ verticalSpacing;
                 currentWidth = 0f;
                 rowList.clear();
             }
             rowList.add(c);
-            currentWidth+=c.getSize().x+ horizontalSpacing;
+            currentWidth+=c.getPreferredSize().x+ horizontalSpacing;
         }
         if(!rowList.isEmpty())
             currentY += move(rowList, xCentered, startX+owner.getMargins().x, currentY, widthReduction, direction, currentWidth)+ verticalSpacing;
@@ -110,23 +110,27 @@ public class PreferredFitLayout extends Layout {
         final float maxH = findMax(Lists.transform(rowList, new Function<TruiComponent, Float>() {
             @Override
             public Float apply(TruiComponent input) {
-                return input.getSize().y;
+                return input.getPreferredSize().y;
             }
         }));
         if(xCentered) {
             float x = startX-currentWidth/2f;
             for(TruiComponent child : rowList) {
+                child.setSize(child.getPreferredSize());
+
                 child.getPosition().x = x + owner.getPosition().x;
                 child.getPosition().y = startY+owner.getPosition().y;
                 child.invalidate();
-                x += direction * (child.getSize().x + horizontalSpacing);
+                x += direction * (child.getPreferredSize().x + horizontalSpacing);
             }
         } else {
             for(TruiComponent child : rowList) {
-                child.getPosition().x = currentX + owner.getPosition().x - widthReduction * child.getSize().x;
+                child.setSize(child.getPreferredSize());
+
+                child.getPosition().x = currentX + owner.getPosition().x - widthReduction * child.getPreferredSize().x;
                 child.getPosition().y = startY+owner.getPosition().y;
                 child.invalidate();
-                currentX += direction * (child.getSize().x + horizontalSpacing);
+                currentX += direction * (child.getPreferredSize().x + horizontalSpacing);
             }
         }
         return maxH;

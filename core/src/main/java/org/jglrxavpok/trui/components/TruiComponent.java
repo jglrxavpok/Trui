@@ -214,4 +214,13 @@ public class TruiComponent {
     public TruiContext getContext() {
         return context;
     }
+
+    public void askForFocus() {
+        if(context != null)
+            context.focusOn(this);
+    }
+
+    public boolean isFocused() {
+        return context != null && context.getFocusedComponent() == this;
+    }
 }
