@@ -128,10 +128,7 @@ public class TruiContext {
 
     public void setWidth(float width) {
         this.width = width;
-        if(getCurrentScreen() != null) {
-            getCurrentScreen().setSize(width, height);
-            getCurrentScreen().invalidateHierarchy();
-        }
+        resizeCurrentScreen(width, height);
     }
 
     public float getHeight() {
@@ -140,7 +137,20 @@ public class TruiContext {
 
     public void setHeight(float height) {
         this.height = height;
+        resizeCurrentScreen(width, height);
+    }
+
+    public void setSize(float width, float height) {
+        this.width = width;
+        this.height = height;
+        resizeCurrentScreen(width, height);
+    }
+
+    private void resizeCurrentScreen(float width, float height) {
         if(getCurrentScreen() != null) {
+            if(backend != null) {
+                backend.resize(width, height);
+            }
             getCurrentScreen().setSize(width, height);
             getCurrentScreen().invalidateHierarchy();
         }

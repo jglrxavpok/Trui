@@ -1,6 +1,7 @@
 package org.jglrxavpok.trui.backends.libgdx;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -15,11 +16,13 @@ import org.jglrxavpok.trui.components.TruiLabel;
 public class LibGDXComponentRenderer implements ComponentRenderer {
     private final TruiContext context;
     private final SpriteBatch spriteBatch;
+    private final OrthographicCamera camera;
     private final Texture testTexture;
 
-    public LibGDXComponentRenderer(TruiContext context, SpriteBatch spriteBatch) {
+    public LibGDXComponentRenderer(TruiContext context, SpriteBatch spriteBatch, OrthographicCamera camera) {
         this.context = context;
         this.spriteBatch = spriteBatch;
+        this.camera = camera;
 
         testTexture = new Texture("test_pic.png");
     }
@@ -48,6 +51,8 @@ public class LibGDXComponentRenderer implements ComponentRenderer {
 
     @Override
     public void startRendering() {
+        camera.update();
+        spriteBatch.setProjectionMatrix(camera.combined);
         spriteBatch.begin();
     }
 }

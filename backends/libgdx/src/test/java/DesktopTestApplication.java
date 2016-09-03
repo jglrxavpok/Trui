@@ -12,36 +12,26 @@ import org.jglrxavpok.trui.testui.TestScreen;
 
 public class DesktopTestApplication implements ApplicationListener {
     private TruiContext context;
-    private SpriteBatch spriteBatch;
-    private OrthographicCamera camera;
 
     @Override
     public void create() {
         context = new TruiContext(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        spriteBatch = new SpriteBatch();
-        context.setBackend(new LibGDXBackend(spriteBatch)); // TODO: find another way to set the backend ?
+        context.setBackend(new LibGDXBackend()); // TODO: find another way to set the backend ?
 
         context.setCurrentScreen(new TestScreen());
         Gdx.input.setInputProcessor(new TestInputProcessor(context));
-
-        camera = new OrthographicCamera();
     }
 
     @Override
     public void resize(int width, int height) {
-        context.setWidth(width);
-        context.setHeight(height);
+        context.setSize(width, height);
         Gdx.gl.glViewport(0,0,width, height);
-        camera.setToOrtho(false, width, height);
     }
 
     @Override
     public void render() {
         Gdx.gl.glClearColor(1,1,1,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-        spriteBatch.setProjectionMatrix(camera.combined);
-        camera.update();
         context.renderAll();
     }
 

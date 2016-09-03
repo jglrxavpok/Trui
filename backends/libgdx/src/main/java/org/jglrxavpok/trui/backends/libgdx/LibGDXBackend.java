@@ -1,5 +1,6 @@
 package org.jglrxavpok.trui.backends.libgdx;
 
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import org.jglrxavpok.trui.TruiContext;
 import org.jglrxavpok.trui.backends.ComponentRenderer;
@@ -12,9 +13,11 @@ import org.jglrxavpok.trui.backends.libgdx.fonts.LibGDXFontFactory;
 public class LibGDXBackend implements TruiBackend {
 
     private final SpriteBatch spriteBatch;
+    private final OrthographicCamera camera;
 
-    public LibGDXBackend(SpriteBatch spriteBatch) {
-        this.spriteBatch = spriteBatch;
+    public LibGDXBackend() {
+        this.spriteBatch = new SpriteBatch();
+        camera = new OrthographicCamera();
     }
 
     @Override
@@ -24,12 +27,17 @@ public class LibGDXBackend implements TruiBackend {
 
     @Override
     public ComponentRenderer createComponentRenderer(TruiContext context) {
-        return new LibGDXComponentRenderer(context, spriteBatch);
+        return new LibGDXComponentRenderer(context, spriteBatch, camera);
     }
 
     @Override
     public TruiFontFactory createFontFactory(TruiContext context, FontCache fontCache) {
         return new LibGDXFontFactory(context, fontCache);
+    }
+
+    @Override
+    public void resize(float width, float height) {
+        camera.setToOrtho(false, width, height);
     }
 
 }
