@@ -1,1 +1,1 @@
-include 'core', 'backends/libgdx', 'backends/headless'
+include 'core', 'backends/libgdx', 'backends/headless', 'backends/lwjgl3'

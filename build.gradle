@@ -51,6 +51,21 @@ project(":backends/libgdx") {
     }
 }
 
+project(":backends/lwjgl3") {
+    apply plugin: "java"
+    targetCompatibility = 1.8
+    sourceCompatibility = 1.8
+    ext.lwjglVersion = '3.0.0'
+
+    dependencies {
+        compile project(':core')
+        compile "org.lwjgl:lwjgl:${lwjglVersion}"
+        compile "org.lwjgl:lwjgl-platform:${lwjglVersion}:natives-windows"
+        compile "org.lwjgl:lwjgl-platform:${lwjglVersion}:natives-linux"
+        compile "org.lwjgl:lwjgl-platform:${lwjglVersion}:natives-osx"
+    }
+}
+
 project(":backends/headless") {
     apply plugin: "java"
     targetCompatibility = 1.6
