@@ -26,7 +26,7 @@ public class LWJGL3TestApplication {
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
         int width = 1024;
         int height = 768;
-        long window = glfwCreateWindow(width, height, "Test application", 0, 0);
+        long window = glfwCreateWindow(width, height, "Trui LWJGL3/NanoVG backend test application", 0, 0);
         glfwShowWindow(window);
 
         glfwMakeContextCurrent(window);
