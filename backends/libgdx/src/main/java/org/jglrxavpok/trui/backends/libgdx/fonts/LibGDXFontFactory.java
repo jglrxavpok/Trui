@@ -1,35 +1,42 @@
 package org.jglrxavpok.trui.backends.libgdx.fonts;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.files.FileHandleStream;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeType;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import org.jglrxavpok.trui.TruiContext;
-import org.jglrxavpok.trui.backends.FontCache;
 import org.jglrxavpok.trui.backends.TruiFont;
 import org.jglrxavpok.trui.backends.TruiFontFactory;
 
+import java.io.InputStream;
+
 public class LibGDXFontFactory implements TruiFontFactory {
     private final TruiContext context;
-    private final FontCache fontCache;
     private final GlyphLayout glyphLayout;
 
-    public LibGDXFontFactory(TruiContext context, FontCache fontCache) {
+    public LibGDXFontFactory(TruiContext context) {
         this.context = context;
-        this.fontCache = fontCache;
         glyphLayout = new GlyphLayout();
     }
 
     @Override
-    public TruiFont getFont(String name, int size) {
-        if(fontCache.hasCached(name, size))
-            return fontCache.getCached(name, size);
+    public TruiFont create(String name, final InputStream input, int size) {
         FreeTypeFontGenerator.FreeTypeFontParameter params = new FreeTypeFontGenerator.FreeTypeFontParameter();
         params.size = size;
-        BitmapFont bitmapFont = new FreeTypeFontGenerator(Gdx.files.internal(name+".ttf")).generateFont(params);
-        LibGDXFont font = new LibGDXFont(bitmapFont, name, size, glyphLayout);
-        fontCache.cache(font);
-        return font;
+        FileHandle file = Gdx.files.internal(name+".ttf");
+        BitmapFont bitmapFont;
+        if(file.exists()) {
+            bitmapFont = new FreeTypeFontGenerator(file).generateFont(params);
+        } else {
+            bitmapFont = new FreeTypeFontGenerator(new FileHandle() {
+                @Override
+                public InputStream read() {
+                    return input;
+                }
+            }).generateFont(params);
+        }
+        return new LibGDXFont(bitmapFont, name, size, glyphLayout);
     }
 }

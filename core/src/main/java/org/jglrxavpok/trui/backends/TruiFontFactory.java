@@ -1,7 +1,9 @@
 package org.jglrxavpok.trui.backends;
 
+import java.io.InputStream;
+
 public interface TruiFontFactory {
 
-    TruiFont getFont(String name, int size);
+    TruiFont create(String name, InputStream input, int size);
 
 }

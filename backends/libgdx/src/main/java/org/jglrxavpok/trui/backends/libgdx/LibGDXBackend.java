@@ -7,7 +7,6 @@ import org.jglrxavpok.trui.backends.ComponentRenderer;
 import org.jglrxavpok.trui.backends.FontCache;
 import org.jglrxavpok.trui.backends.TruiBackend;
 import org.jglrxavpok.trui.backends.TruiFontFactory;
-import org.jglrxavpok.trui.backends.libgdx.fonts.LibGDXFont;
 import org.jglrxavpok.trui.backends.libgdx.fonts.LibGDXFontFactory;
 
 public class LibGDXBackend implements TruiBackend {
@@ -32,7 +31,7 @@ public class LibGDXBackend implements TruiBackend {
 
     @Override
     public TruiFontFactory createFontFactory(TruiContext context, FontCache fontCache) {
-        return new LibGDXFontFactory(context, fontCache);
+        return new LibGDXFontFactory(context);
     }
 
     @Override

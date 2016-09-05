@@ -1,5 +1,6 @@
 package org.jglrxavpok.trui;
 
+import com.google.common.collect.Maps;
 import com.google.common.eventbus.EventBus;
 import org.jglrxavpok.trui.backends.*;
 import org.jglrxavpok.trui.components.TruiComponent;
@@ -9,8 +10,10 @@ import org.jglrxavpok.trui.events.FocusGainedEvent;
 import org.jglrxavpok.trui.events.FocusLostEvent;
 import org.jglrxavpok.trui.events.UIEvent;
 
+import java.io.InputStream;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Represents the current state of the Trui components. Also helps to dispatch UI events such as mouse clicks, mouse movements...
@@ -28,8 +31,10 @@ public class TruiContext {
     private ComponentRenderer componentRenderer;
     private TruiFontFactory fontFactory;
     private TruiComponent focused;
+    private Map<String, InputStream> registredFontStreams;
 
     public TruiContext(float contextWidth, float contextHeight) {
+        registredFontStreams = Maps.newHashMap();
         this.width = contextWidth;
         this.height = contextHeight;
         eventBus = new EventBus();
@@ -157,11 +162,19 @@ public class TruiContext {
     }
 
     public TruiFont getFont(String name, int size) {
+        if(fontCache.hasCached(name, size))
+            return fontCache.getCached(name, size);
         if(fontFactory == null)
             throw new NullPointerException("No font factory registred with context. Probably that no backend has been set");
-        return fontFactory.getFont(name, size);
+        TruiFont font = fontFactory.create(name, registredFontStreams.get(name), size);
+        fontCache.cache(font);
+        return font;
     }
 
+    /**
+     * Renders the current screen.
+     * Be aware of your backend when using the method because some graphical library only allow one thread to use the library (ie OpenGL)
+     */
     public void renderAll() {
         if(componentRenderer == null)
             throw new NullPointerException("No component renderer registred with context. Probably that no backend has been set");
@@ -199,5 +212,9 @@ public class TruiContext {
 
     public TruiComponent getFocusedComponent() {
         return focused;
+    }
+
+    public void registerFontStream(String name, InputStream stream) {
+        registredFontStreams.put(name, stream);
     }
 }

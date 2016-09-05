@@ -3,6 +3,8 @@ package org.jglrxavpok.trui.backends.headless;
 import org.jglrxavpok.trui.TruiContext;
 import org.jglrxavpok.trui.backends.*;
 
+import java.io.InputStream;
+
 public class HeadlessBackend implements TruiBackend {
     @Override
     public String getName() {
@@ -18,7 +20,7 @@ public class HeadlessBackend implements TruiBackend {
     public TruiFontFactory createFontFactory(TruiContext context, FontCache fontCache) {
         return new TruiFontFactory() { // TODO: Caching
             @Override
-            public TruiFont getFont(final String name, final int size) {
+            public TruiFont create(final String name, InputStream input, final int size) {
                 return new TruiFont() {
                     @Override
                     public String getName() {
@@ -42,5 +44,10 @@ public class HeadlessBackend implements TruiBackend {
                 };
             }
         };
+    }
+
+    @Override
+    public void resize(float width, float height) {
+        // no op
     }
 }
