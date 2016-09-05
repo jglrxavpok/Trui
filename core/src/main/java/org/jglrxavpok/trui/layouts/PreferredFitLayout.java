@@ -90,7 +90,7 @@ public class PreferredFitLayout extends Layout {
         float currentWidth = 0f;
         List<TruiComponent> rowList = new LinkedList<TruiComponent>();
         for(TruiComponent c : owner.getChildren()) {
-            if(currentWidth + owner.getPreferredSize().x + horizontalSpacing > owner.getSize().x+owner.getMargins().x*2) {
+            if(currentWidth + c.getPreferredSize().x + horizontalSpacing > owner.getSize().x+owner.getMargins().x*2) {
                 currentY += move(rowList, xCentered, startX+owner.getMargins().x*2, currentY, widthReduction, direction, currentWidth)+ verticalSpacing;
                 currentWidth = 0f;
                 rowList.clear();
