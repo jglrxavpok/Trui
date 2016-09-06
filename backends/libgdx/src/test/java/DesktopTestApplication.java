@@ -38,7 +38,8 @@ public class DesktopTestApplication implements ApplicationListener {
         context.renderAll();
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.R)) {
-            context.getCurrentScreen().addChild(new TruiButton("TEST", context.getFont("Consolas", 28), TruiColor.opaqueBlack()));
+            TruiButton button = new TruiButton("TEST", context.getFont("Consolas", 28), TruiColor.opaqueBlack());
+            context.getCurrentScreen().addChild(button);
             context.getCurrentScreen().pack();
         }
     }

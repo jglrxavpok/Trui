@@ -11,6 +11,13 @@ import org.jglrxavpok.trui.backends.libgdx.fonts.LibGDXFont;
 import org.jglrxavpok.trui.components.TruiButton;
 import org.jglrxavpok.trui.components.TruiComponent;
 import org.jglrxavpok.trui.components.TruiLabel;
+import org.jglrxavpok.trui.render.ColorPaintStyle;
+import org.jglrxavpok.trui.render.RenderElementType;
+import org.jglrxavpok.trui.render.RenderInfo;
+import org.jglrxavpok.trui.render.TextElement;
+import org.jglrxavpok.trui.utils.TruiColor;
+
+import java.util.List;
 
 public class LibGDXUIRenderer implements UIRenderer {
     private final TruiContext context;
@@ -30,7 +37,7 @@ public class LibGDXUIRenderer implements UIRenderer {
     public void renderComponent(TruiComponent component) {
         // TODO: find better suited way to handle component types
         float height = Gdx.graphics.getHeight(); // TODO: better handle y inversion
-        if(component instanceof TruiLabel) {
+        /*if(component instanceof TruiLabel) {
             TruiLabel label = ((TruiLabel) component);
             LibGDXFont font = (LibGDXFont)label.getFont();
             BitmapFont bitmapFont = font.getBitmapFont();
@@ -40,6 +47,20 @@ public class LibGDXUIRenderer implements UIRenderer {
             TruiButton button = ((TruiButton) component);
             // TODO: change to user-defined textures
             spriteBatch.draw(testTexture, button.getPosition().x, height-button.getPosition().y-1f-button.getSize().y, button.getSize().x, button.getSize().y);
+        }*/
+        List<RenderInfo> list = component.getRenderProperties().getRenderInfos();
+        for(RenderInfo r : list) {
+            RenderElementType type = r.getShapeType();
+            switch (type) {
+                case TEXT:
+                    TextElement textElement = (TextElement) r.getRenderElement();
+                    LibGDXFont font = (LibGDXFont) textElement.getFont();
+                    BitmapFont bitmapFont = font.getBitmapFont();
+                    TruiColor color = ((ColorPaintStyle)r.getPaintStyle()).getColor();
+                    bitmapFont.setColor(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha());
+                    bitmapFont.draw(spriteBatch, textElement.getText(), component.getPosition().x, height-component.getPosition().y-1f);
+                    break;
+            }
         }
     }
 

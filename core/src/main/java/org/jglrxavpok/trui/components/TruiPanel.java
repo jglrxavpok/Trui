@@ -101,6 +101,7 @@ public class TruiPanel extends TruiComponent {
     @Override
     public TruiPanel invalidate() {
         for (TruiComponent c : children) {
+            c.setContext(getContext());
             c.invalidate();
         }
         layout.applyChildrenLayout();
@@ -110,6 +111,10 @@ public class TruiPanel extends TruiComponent {
     @Override
     public TruiPanel invalidateHierarchy() {
         super.invalidateHierarchy();
+        for (TruiComponent c : children) {
+            c.setContext(getContext());
+            c.invalidate();
+        }
         return this;
     }
 

@@ -171,6 +171,10 @@ public class TruiComponent {
      */
     public TruiComponent invalidate() {
         dirty = true;
+        if(context != null) {
+            getRenderProperties().getRenderInfos().clear();
+            context.getStyle().decorate(this);
+        }
         return this;
     }
 
@@ -216,6 +220,10 @@ public class TruiComponent {
 
     public void setContext(TruiContext context) {
         this.context = context;
+        if(context != null) {
+            getRenderProperties().getRenderInfos().clear();
+            context.getStyle().decorate(this);
+        }
     }
 
     public TruiContext getContext() {

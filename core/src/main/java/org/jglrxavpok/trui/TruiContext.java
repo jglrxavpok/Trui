@@ -9,6 +9,8 @@ import org.jglrxavpok.trui.components.TruiScreen;
 import org.jglrxavpok.trui.events.FocusGainedEvent;
 import org.jglrxavpok.trui.events.FocusLostEvent;
 import org.jglrxavpok.trui.events.UIEvent;
+import org.jglrxavpok.trui.style.DefaultStyle;
+import org.jglrxavpok.trui.style.TruiStyle;
 
 import java.io.InputStream;
 import java.util.LinkedList;
@@ -24,6 +26,7 @@ public class TruiContext {
     private final EventBus eventBus;
     private final List<TruiComponent> registred;
     private final FontCache fontCache;
+    private TruiStyle style;
     private float width;
     private float height;
     private TruiScreen currentScreen;
@@ -34,6 +37,7 @@ public class TruiContext {
     private Map<String, InputStream> registredFontStreams;
 
     public TruiContext(float contextWidth, float contextHeight) {
+        style = new DefaultStyle();
         registredFontStreams = Maps.newHashMap();
         this.width = contextWidth;
         this.height = contextHeight;
@@ -216,5 +220,13 @@ public class TruiContext {
 
     public void registerFontStream(String name, InputStream stream) {
         registredFontStreams.put(name, stream);
+    }
+
+    public TruiStyle getStyle() {
+        return style;
+    }
+
+    public void setStyle(TruiStyle style) {
+        this.style = style;
     }
 }

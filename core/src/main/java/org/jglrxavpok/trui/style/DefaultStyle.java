@@ -12,7 +12,8 @@ public class DefaultStyle extends TruiStyle {
     public void decorate(TruiComponent component) {
         RenderProperties render = component.getRenderProperties();
         if(component instanceof TruiLabel) {
-            render.addRenderElement(((TruiLabel) component).getText(), RenderElementType.TEXT, PaintStyle.NONE);
+            TruiLabel label = ((TruiLabel) component);
+            render.addRenderElement(label.getText(), label.getFont(), RenderElementType.TEXT, new ColorPaintStyle(label.getTextColor()));
         } else if(component instanceof TruiButton) {
             render.addRenderElement(new RectangleShape(component.getPosition(), new Vector2f(component.getPosition()).add(component.getSize())),
                     RenderElementType.SHAPE_FILLED,
