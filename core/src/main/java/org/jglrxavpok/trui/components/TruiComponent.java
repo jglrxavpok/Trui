@@ -1,6 +1,7 @@
 package org.jglrxavpok.trui.components;
 
 import org.jglrxavpok.trui.TruiContext;
+import org.jglrxavpok.trui.render.RenderProperties;
 import org.joml.Vector2f;
 
 /**
@@ -17,13 +18,19 @@ public class TruiComponent {
     private boolean dirty;
     private TruiComponent parent;
     private TruiContext context;
+    private RenderProperties renderProperties;
 
     public TruiComponent() {
+        renderProperties = new RenderProperties(this);
         position = new Vector2f();
         minSize = new Vector2f();
         maxSize = new Vector2f();
         prefSize = new Vector2f();
         size = new Vector2f();
+    }
+
+    public RenderProperties getRenderProperties() {
+        return renderProperties;
     }
 
     public Vector2f getPosition() {
@@ -164,6 +171,7 @@ public class TruiComponent {
      */
     public TruiComponent invalidate() {
         dirty = true;
+        renderProperties.onInvalidate();
         return this;
     }
 

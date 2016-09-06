@@ -3,7 +3,7 @@ package org.jglrxavpok.trui.backends.libgdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import org.jglrxavpok.trui.TruiContext;
-import org.jglrxavpok.trui.backends.ComponentRenderer;
+import org.jglrxavpok.trui.backends.UIRenderer;
 import org.jglrxavpok.trui.backends.FontCache;
 import org.jglrxavpok.trui.backends.TruiBackend;
 import org.jglrxavpok.trui.backends.TruiFontFactory;
@@ -25,8 +25,8 @@ public class LibGDXBackend implements TruiBackend {
     }
 
     @Override
-    public ComponentRenderer createComponentRenderer(TruiContext context) {
-        return new LibGDXComponentRenderer(context, spriteBatch, camera);
+    public UIRenderer createComponentRenderer(TruiContext context) {
+        return new LibGDXUIRenderer(context, spriteBatch, camera);
     }
 
     @Override

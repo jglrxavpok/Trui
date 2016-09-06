@@ -2,7 +2,7 @@ package org.jglrxavpok.trui.backends;
 
 import org.jglrxavpok.trui.components.TruiComponent;
 
-public interface ComponentRenderer {
+public interface UIRenderer {
 
     void renderComponent(TruiComponent component);
 

@@ -6,20 +6,19 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import org.jglrxavpok.trui.TruiContext;
-import org.jglrxavpok.trui.backends.ComponentRenderer;
-import org.jglrxavpok.trui.backends.TruiFont;
+import org.jglrxavpok.trui.backends.UIRenderer;
 import org.jglrxavpok.trui.backends.libgdx.fonts.LibGDXFont;
 import org.jglrxavpok.trui.components.TruiButton;
 import org.jglrxavpok.trui.components.TruiComponent;
 import org.jglrxavpok.trui.components.TruiLabel;
 
-public class LibGDXComponentRenderer implements ComponentRenderer {
+public class LibGDXUIRenderer implements UIRenderer {
     private final TruiContext context;
     private final SpriteBatch spriteBatch;
     private final OrthographicCamera camera;
     private final Texture testTexture;
 
-    public LibGDXComponentRenderer(TruiContext context, SpriteBatch spriteBatch, OrthographicCamera camera) {
+    public LibGDXUIRenderer(TruiContext context, SpriteBatch spriteBatch, OrthographicCamera camera) {
         this.context = context;
         this.spriteBatch = spriteBatch;
         this.camera = camera;

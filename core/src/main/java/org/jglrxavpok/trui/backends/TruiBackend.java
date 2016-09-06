@@ -6,7 +6,7 @@ public interface TruiBackend {
 
     String getName();
 
-    ComponentRenderer createComponentRenderer(TruiContext context);
+    UIRenderer createComponentRenderer(TruiContext context);
 
     TruiFontFactory createFontFactory(TruiContext context, FontCache fontCache);
 

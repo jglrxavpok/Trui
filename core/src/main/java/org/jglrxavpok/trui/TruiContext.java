@@ -28,7 +28,7 @@ public class TruiContext {
     private float height;
     private TruiScreen currentScreen;
     private TruiBackend backend;
-    private ComponentRenderer componentRenderer;
+    private UIRenderer UIRenderer;
     private TruiFontFactory fontFactory;
     private TruiComponent focused;
     private Map<String, InputStream> registredFontStreams;
@@ -46,7 +46,7 @@ public class TruiContext {
 
     public void setBackend(TruiBackend backend) {
         this.backend = backend;
-        componentRenderer = backend.createComponentRenderer(this);
+        UIRenderer = backend.createComponentRenderer(this);
         fontFactory = backend.createFontFactory(this, fontCache);
     }
 
@@ -176,20 +176,20 @@ public class TruiContext {
      * Be aware of your backend when using the method because some graphical library only allow one thread to use the library (ie OpenGL)
      */
     public void renderAll() {
-        if(componentRenderer == null)
+        if(UIRenderer == null)
             throw new NullPointerException("No component renderer registred with context. Probably that no backend has been set");
-        componentRenderer.startRendering();
+        UIRenderer.startRendering();
         renderPanel(getCurrentScreen());
-        componentRenderer.endRendering();
+        UIRenderer.endRendering();
     }
 
     private void renderPanel(TruiPanel panel) {
-        componentRenderer.renderComponent(panel); // render behind everything
+        UIRenderer.renderComponent(panel); // render behind everything
         for(TruiComponent c : panel.getChildren()) {
             if(c instanceof TruiPanel) {
                 renderPanel((TruiPanel) c);
             } else {
-                componentRenderer.renderComponent(c);
+                UIRenderer.renderComponent(c);
             }
         }
     }

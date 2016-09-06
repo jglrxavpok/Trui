@@ -1,7 +1,7 @@
 package org.jglrxavpok.trui.backends.lwjgl3;
 
 import org.jglrxavpok.trui.TruiContext;
-import org.jglrxavpok.trui.backends.ComponentRenderer;
+import org.jglrxavpok.trui.backends.UIRenderer;
 import org.jglrxavpok.trui.backends.lwjgl3.nvg.NanoVGContext;
 import org.jglrxavpok.trui.components.TruiButton;
 import org.jglrxavpok.trui.components.TruiComponent;
@@ -11,7 +11,7 @@ import org.lwjgl.nanovg.*;
 import org.lwjgl.system.MemoryStack;
 import org.lwjgl.system.MemoryUtil;
 
-public class NanoVGRenderer implements ComponentRenderer {
+public class NanoVGRenderer implements UIRenderer {
     private final TruiContext context;
     private final LWJGLBackend backend;
     private final NVGColor nvgColor;

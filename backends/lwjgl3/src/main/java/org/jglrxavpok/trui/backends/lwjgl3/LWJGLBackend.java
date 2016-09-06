@@ -1,7 +1,7 @@
 package org.jglrxavpok.trui.backends.lwjgl3;
 
 import org.jglrxavpok.trui.TruiContext;
-import org.jglrxavpok.trui.backends.ComponentRenderer;
+import org.jglrxavpok.trui.backends.UIRenderer;
 import org.jglrxavpok.trui.backends.FontCache;
 import org.jglrxavpok.trui.backends.TruiBackend;
 import org.jglrxavpok.trui.backends.TruiFontFactory;
@@ -50,7 +50,7 @@ public class LWJGLBackend implements TruiBackend {
     }
 
     @Override
-    public ComponentRenderer createComponentRenderer(TruiContext context) {
+    public UIRenderer createComponentRenderer(TruiContext context) {
         return new NanoVGRenderer(context, this);
     }
 

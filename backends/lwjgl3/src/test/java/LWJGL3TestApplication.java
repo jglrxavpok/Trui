@@ -58,6 +58,8 @@ public class LWJGL3TestApplication {
             @Override
             public void invoke(long window, double xpos, double ypos) {
                 context.fireEvent(new MouseMoveEvent((float)(xpos), (float)(ypos), (float)(prevX-xpos), (float)(prevY-ypos)));
+                prevX = xpos;
+                prevY = ypos;
             }
         });
 

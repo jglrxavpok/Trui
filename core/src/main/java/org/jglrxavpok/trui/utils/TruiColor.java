@@ -73,4 +73,8 @@ public class TruiColor {
     public static TruiColor opaqueWhite() {
         return new TruiColor(1,1,1,1);
     }
+
+    public static TruiColor opaqueLightGray() {
+        return new TruiColor(0.75f,.75f,.75f,1f);
+    }
 }

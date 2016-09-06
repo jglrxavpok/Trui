@@ -1,9 +1,9 @@
 package org.jglrxavpok.trui.backends.headless;
 
-import org.jglrxavpok.trui.backends.ComponentRenderer;
+import org.jglrxavpok.trui.backends.UIRenderer;
 import org.jglrxavpok.trui.components.TruiComponent;
 
-public class HeadlessComponentRenderer implements ComponentRenderer {
+public class HeadlessUIRenderer implements UIRenderer {
     @Override
     public void renderComponent(TruiComponent component) {
         // do nothing

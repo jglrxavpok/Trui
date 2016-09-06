@@ -12,8 +12,8 @@ public class HeadlessBackend implements TruiBackend {
     }
 
     @Override
-    public ComponentRenderer createComponentRenderer(TruiContext context) {
-        return new HeadlessComponentRenderer();
+    public UIRenderer createComponentRenderer(TruiContext context) {
+        return new HeadlessUIRenderer();
     }
 
     @Override
