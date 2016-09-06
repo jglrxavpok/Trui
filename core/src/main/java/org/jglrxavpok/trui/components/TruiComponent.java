@@ -171,7 +171,6 @@ public class TruiComponent {
      */
     public TruiComponent invalidate() {
         dirty = true;
-        renderProperties.onInvalidate();
         return this;
     }
 
