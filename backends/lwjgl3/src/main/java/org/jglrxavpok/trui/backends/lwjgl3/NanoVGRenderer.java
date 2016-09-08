@@ -87,28 +87,6 @@ public class NanoVGRenderer implements UIRenderer {
                 break;
             }
         }
-        /*if(component instanceof TruiButton) { // TODO: distinguish in a better way
-            nvgColor.a(1f);
-            nvgColor.r(1f);
-            nvgColor.g(0f);
-            nvgColor.b(0f);
-            NanoVG.nvgBeginPath(nvgContext().getHandle());
-            NanoVG.nvgFillColor(nvgContext().getHandle(), nvgColor);
-            NanoVG.nvgRect(nvgContext().getHandle(), component.getPosition().x,component.getPosition().y,component.getSize().x,component.getSize().y);
-            NanoVG.nvgFill(nvgContext().getHandle());
-        } else if(component instanceof TruiLabel) {
-            TruiLabel label = ((TruiLabel) component);
-            TruiColor truiColor = label.getTextColor();
-            nvgColor.a(truiColor.getAlpha());
-            nvgColor.r(truiColor.getRed());
-            nvgColor.g(truiColor.getGreen());
-            nvgColor.b(truiColor.getBlue());
-            NanoVG.nvgFillColor(nvgContext().getHandle(), nvgColor);
-            nvgContext().setFontSize(label.getFont().getSize());
-            nvgContext().setFont(label.getFont());
-            NanoVG.nvgText(nvgContext().getHandle(), label.getPosition().x-5f,label.getPosition().y+label.getFont().getTextHeight(label.getText())*.75f, label.getText(), MemoryUtil.NULL);
-        }*/
-
         memStack.pop();
     }
 
@@ -119,7 +97,7 @@ public class NanoVGRenderer implements UIRenderer {
 
     @Override
     public void startRendering() {
-        nvgContext().beginFrame((int)(context.getWidth()), (int)(context.getHeight()), context.getWidth()/context.getHeight());
+        nvgContext().beginFrame((int)(context.getWidth()), (int)(context.getHeight()), 1f);
     }
 
     private NanoVGContext nvgContext() {

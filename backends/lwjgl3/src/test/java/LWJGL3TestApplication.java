@@ -8,6 +8,7 @@ import org.jglrxavpok.trui.testui.TestScreen;
 import org.jglrxavpok.trui.utils.TruiColor;
 import org.lwjgl.glfw.GLFWCursorPosCallback;
 import org.lwjgl.glfw.GLFWKeyCallback;
+import org.lwjgl.glfw.GLFWWindowSizeCallback;
 import org.lwjgl.opengl.GL;
 
 import static org.lwjgl.glfw.GLFW.*;
@@ -72,6 +73,15 @@ public class LWJGL3TestApplication {
                         context.getCurrentScreen().pack();
                     }
                 }
+            }
+        });
+
+        glfwSetWindowSizeCallback(window, new GLFWWindowSizeCallback() {
+
+            @Override
+            public void invoke(long window, int width, int height) {
+                glViewport(0,0,width,height);
+                context.setSize(width, height);
             }
         });
     }
