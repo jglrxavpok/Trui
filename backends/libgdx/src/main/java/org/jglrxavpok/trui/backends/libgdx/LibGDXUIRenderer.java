@@ -87,7 +87,7 @@ public class LibGDXUIRenderer implements UIRenderer {
                 case SHAPE_LINES: {
                     Shape shape = (Shape) r.getRenderElement();
                     Texture texture = getCorrespondingTexture(r.getPaintStyle());
-                    TextureRegion region = new TextureRegion(texture); // TODO: cache
+                    TextureRegion region = new TextureRegion(texture);
                     VertexInfo[] vertices = shape.getVertices();
                     final float lineWidth = 1f; // TODO: Add method to choose width
                     TruiColor lineColor = TruiColor.TMP;
@@ -147,9 +147,9 @@ public class LibGDXUIRenderer implements UIRenderer {
         if(style instanceof ColorPaintStyle) {
             return singlePixelTexture;
         } else if(style instanceof TexturePaintStyle) {
-            return testTexture;
+            return testTexture; // TODO
         }
-        return missingTexture; // TODO
+        return missingTexture;
     }
 
     @Override

@@ -18,7 +18,7 @@ public class HeadlessBackend implements TruiBackend {
 
     @Override
     public TruiFontFactory createFontFactory(TruiContext context, FontCache fontCache) {
-        return new TruiFontFactory() { // TODO: Caching
+        return new TruiFontFactory() {
             @Override
             public TruiFont create(final String name, InputStream input, final int size) {
                 return new TruiFont() {

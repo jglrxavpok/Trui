@@ -19,7 +19,7 @@ public class DesktopTestApplication implements ApplicationListener {
     @Override
     public void create() {
         context = new TruiContext(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        context.setBackend(new LibGDXBackend()); // TODO: find another way to set the backend ?
+        context.setBackend(new LibGDXBackend());
 
         context.setCurrentScreen(new TestScreen());
         Gdx.input.setInputProcessor(new TestInputProcessor(context));
