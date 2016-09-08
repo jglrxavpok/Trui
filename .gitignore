@@ -4,3 +4,5 @@
 # IDEA stuff
 .idea/
 build/
+
+hs_err_pid*.log
