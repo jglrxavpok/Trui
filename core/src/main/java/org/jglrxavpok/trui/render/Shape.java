@@ -5,5 +5,7 @@ import org.joml.Vector2f;
 
 public interface Shape extends RenderElement {
 
-    Vector2f[] getVertices();
+    VertexInfo[] getVertices();
+
+    float[] getPackedVerticePositions();
 }

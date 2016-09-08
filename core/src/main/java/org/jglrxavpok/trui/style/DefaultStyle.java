@@ -15,13 +15,16 @@ public class DefaultStyle extends TruiStyle {
             TruiLabel label = ((TruiLabel) component);
             render.addRenderElement(label.getText(), label.getFont(), RenderElementType.TEXT, new ColorPaintStyle(label.getTextColor()));
         } else if(component instanceof TruiButton) {
-            render.addRenderElement(new RectangleShape(component.getPosition(), new Vector2f(component.getPosition()).add(component.getSize())),
+            Vector2f min = new Vector2f(component.getPosition());
+            Vector2f max = new Vector2f(component.getPosition()).add(component.getSize());
+            render.addRenderElement(new RectangleShape(min, max),
                     RenderElementType.SHAPE_FILLED,
                     new ColorPaintStyle(TruiColor.opaqueLightGray())); // content
 
-            render.addRenderElement(new RectangleShape(component.getPosition(), new Vector2f(component.getPosition()).add(component.getSize())),
+            render.addRenderElement(new RectangleShape(new Vector2f(component.getPosition()), new Vector2f(component.getPosition()).add(component.getSize())),
                     RenderElementType.SHAPE_LINES,
                     new ColorPaintStyle(TruiColor.opaqueBlack())); // border
         }
+
     }
 }

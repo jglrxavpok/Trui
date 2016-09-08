@@ -1,5 +1,6 @@
 package org.jglrxavpok.trui.components;
 
+import org.jglrxavpok.trui.TruiContext;
 import org.jglrxavpok.trui.layouts.AbsoluteLayout;
 import org.jglrxavpok.trui.layouts.Layout;
 import org.joml.Vector2f;
@@ -60,7 +61,7 @@ public class TruiPanel extends TruiComponent {
         children.add(component);
         layout.applyChildrenLayout();
         notifyContextHierarchyChange();
-        component.invalidate();
+        invalidateHierarchy();
         return component;
     }
 
@@ -100,25 +101,30 @@ public class TruiPanel extends TruiComponent {
 
     @Override
     public TruiPanel invalidate() {
+        layout.applyChildrenLayout();
         for (TruiComponent c : children) {
-            c.setContext(getContext());
             c.invalidate();
         }
-        layout.applyChildrenLayout();
+        super.invalidate();
         return this;
     }
 
     @Override
     public TruiPanel invalidateHierarchy() {
-        super.invalidateHierarchy();
         for (TruiComponent c : children) {
-            c.setContext(getContext());
             c.invalidate();
         }
+        super.invalidateHierarchy();
         return this;
     }
 
-
+    @Override
+    public void setContext(TruiContext context) {
+        super.setContext(context);
+        for (TruiComponent c : children) {
+            c.setContext(context);
+        }
+    }
 
     /**
      * Returns itself for chaining

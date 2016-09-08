@@ -2,6 +2,7 @@ package org.jglrxavpok.trui.utils;
 
 public class TruiColor {
 
+    public static final TruiColor TMP = new TruiColor(0, 0, 0, 1);
     private float red;
     private float green;
     private float blue;
@@ -76,5 +77,12 @@ public class TruiColor {
 
     public static TruiColor opaqueLightGray() {
         return new TruiColor(0.75f,.75f,.75f,1f);
+    }
+
+    public void set(TruiColor other) {
+        setAlpha(other.getAlpha());
+        setRed(other.getRed());
+        setGreen(other.getGreen());
+        setBlue(other.getBlue());
     }
 }

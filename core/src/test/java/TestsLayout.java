@@ -21,7 +21,8 @@ public class TestsLayout {
         TruiPanel testPanel = new TruiPanel();
         screen.addChild(testPanel);
         testPanel.setLayout(new AbsoluteLayout(testPanel));
-        testPanel.addChild(a).addChild(b);
+        testPanel.addChild(a);
+        testPanel.addChild(b);
         testPanel.pack();
 
 

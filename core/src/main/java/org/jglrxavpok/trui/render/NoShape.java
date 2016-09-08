@@ -1,13 +1,16 @@
 package org.jglrxavpok.trui.render;
 
-import org.joml.Vector2f;
-
 public class NoShape implements Shape {
 
-    private static final Vector2f[] EMPTY_ARRAY = {};
+    private static final VertexInfo[] EMPTY_ARRAY = {};
 
     @Override
-    public Vector2f[] getVertices() {
+    public VertexInfo[] getVertices() {
         return EMPTY_ARRAY;
+    }
+
+    @Override
+    public float[] getPackedVerticePositions() {
+        return new float[0];
     }
 }

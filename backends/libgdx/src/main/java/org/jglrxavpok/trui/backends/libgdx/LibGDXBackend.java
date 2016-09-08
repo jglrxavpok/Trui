@@ -1,6 +1,7 @@
 package org.jglrxavpok.trui.backends.libgdx;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import org.jglrxavpok.trui.TruiContext;
 import org.jglrxavpok.trui.backends.UIRenderer;
@@ -11,11 +12,11 @@ import org.jglrxavpok.trui.backends.libgdx.fonts.LibGDXFontFactory;
 
 public class LibGDXBackend implements TruiBackend {
 
-    private final SpriteBatch spriteBatch;
+    private final PolygonSpriteBatch spriteBatch;
     private final OrthographicCamera camera;
 
     public LibGDXBackend() {
-        this.spriteBatch = new SpriteBatch();
+        this.spriteBatch = new PolygonSpriteBatch();
         camera = new OrthographicCamera();
     }
 
