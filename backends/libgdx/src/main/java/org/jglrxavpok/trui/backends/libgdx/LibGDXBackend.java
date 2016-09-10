@@ -4,10 +4,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import org.jglrxavpok.trui.TruiContext;
-import org.jglrxavpok.trui.backends.UIRenderer;
-import org.jglrxavpok.trui.backends.FontCache;
-import org.jglrxavpok.trui.backends.TruiBackend;
-import org.jglrxavpok.trui.backends.TruiFontFactory;
+import org.jglrxavpok.trui.backends.*;
 import org.jglrxavpok.trui.backends.libgdx.fonts.LibGDXFontFactory;
 
 public class LibGDXBackend implements TruiBackend {
@@ -38,6 +35,16 @@ public class LibGDXBackend implements TruiBackend {
     @Override
     public void resize(float width, float height) {
         camera.setToOrtho(false, width, height);
+    }
+
+    @Override
+    public ResourceLoader createResourceLoader(TruiContext context) {
+        return new LibGDXResourceLoader();
+    }
+
+    @Override
+    public ImageLoader createImageLoader(TruiContext context) {
+        return new LibGDXImageLoader();
     }
 
 }

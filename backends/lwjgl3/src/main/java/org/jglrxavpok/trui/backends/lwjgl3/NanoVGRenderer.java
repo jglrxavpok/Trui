@@ -4,9 +4,7 @@ import org.jglrxavpok.trui.TruiContext;
 import org.jglrxavpok.trui.backends.TruiFont;
 import org.jglrxavpok.trui.backends.UIRenderer;
 import org.jglrxavpok.trui.backends.lwjgl3.nvg.NanoVGContext;
-import org.jglrxavpok.trui.components.TruiButton;
 import org.jglrxavpok.trui.components.TruiComponent;
-import org.jglrxavpok.trui.components.TruiLabel;
 import org.jglrxavpok.trui.render.*;
 import org.jglrxavpok.trui.utils.TruiColor;
 import org.lwjgl.nanovg.*;
@@ -17,11 +15,15 @@ public class NanoVGRenderer implements UIRenderer {
     private final TruiContext context;
     private final LWJGLBackend backend;
     private final NVGColor nvgColor;
+    private final NVGPaint nvgPaint;
+    private final NanoVGImageTranslator nvgImageHandler;
 
     public NanoVGRenderer(TruiContext context, LWJGLBackend backend) {
         this.context = context;
         this.backend = backend;
         nvgColor = NVGColor.calloc();
+        nvgPaint = NVGPaint.calloc();
+        nvgImageHandler = new NanoVGImageTranslator(backend);
     }
 
     @Override
@@ -53,11 +55,16 @@ public class NanoVGRenderer implements UIRenderer {
 
                     if(vertices.length > 0) {
                         TruiColor color = TruiColor.TMP;
+                        nvgPaint.image(0); // reset NVGPaint image
                         if(r.getPaintStyle() instanceof ColorPaintStyle) {
                             TruiColor paintColor = ((ColorPaintStyle) r.getPaintStyle()).getColor();
                             color.set(paintColor);
                         } else {
-                            // TODO: Take a look at NVGPaint for textures
+                            if(r.getPaintStyle() instanceof TexturePaintStyle) {
+                                TruiImage image = ((TexturePaintStyle) r.getPaintStyle()).getImage();
+                                int imageID = nvgImageHandler.get(image);
+                                NanoVG.nvgImagePattern(nvgContext().getHandle(), component.getPosition().x,component.getPosition().y, component.getSize().x, component.getSize().y, 0, imageID, 1, nvgPaint);
+                            }
                             color.setAlpha(1f);
                             color.setBlue(1f);
                             color.setGreen(1f);
@@ -67,10 +74,14 @@ public class NanoVGRenderer implements UIRenderer {
                         nvgColor.r(color.getRed());
                         nvgColor.g(color.getGreen());
                         nvgColor.b(color.getBlue());
+                        nvgPaint.innerColor(nvgColor);
+                        nvgPaint.outerColor(nvgColor);
 
                         NanoVG.nvgBeginPath(nvgContext().getHandle());
-                        NanoVG.nvgFillColor(nvgContext().getHandle(), nvgColor);
-                        NanoVG.nvgStrokeColor(nvgContext().getHandle(), nvgColor);
+                        NanoVG.nvgFillPaint(nvgContext().getHandle(), nvgPaint);
+                        NanoVG.nvgStrokePaint(nvgContext().getHandle(), nvgPaint);
+                    //    NanoVG.nvgFillColor(nvgContext().getHandle(), nvgColor);
+                    //    NanoVG.nvgStrokeColor(nvgContext().getHandle(), nvgColor);
                         NanoVG.nvgMoveTo(nvgContext().getHandle(), vertices[0].getPosition().x, vertices[0].getPosition().y);
                         for (int i = 1;i<vertices.length+1;i++) {
                             VertexInfo v = vertices[i % vertices.length];

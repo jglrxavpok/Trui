@@ -1,10 +1,7 @@
 package org.jglrxavpok.trui.testui;
 
 import org.jglrxavpok.trui.backends.TruiFont;
-import org.jglrxavpok.trui.components.TruiButton;
-import org.jglrxavpok.trui.components.TruiLabel;
-import org.jglrxavpok.trui.components.TruiPanel;
-import org.jglrxavpok.trui.components.TruiScreen;
+import org.jglrxavpok.trui.components.*;
 import org.jglrxavpok.trui.layouts.PreferredFitLayout;
 import org.jglrxavpok.trui.utils.TruiColor;
 
@@ -20,6 +17,8 @@ public class TestScreen extends TruiScreen {
         TruiLabel label2 = addChild(new TruiLabel("Test label 2", textFont));
 
         TruiButton button1 = addChild(new TruiButton("Test Button", textFont, TruiColor.opaqueBlack()));
+
+        TruiImageComponent image = addChild(new TruiImageComponent(getContext().getImage("test_pic.png"), 0.25f));
 
         pack();
     }

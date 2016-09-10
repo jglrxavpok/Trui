@@ -9,8 +9,10 @@ import org.jglrxavpok.trui.components.TruiScreen;
 import org.jglrxavpok.trui.events.FocusGainedEvent;
 import org.jglrxavpok.trui.events.FocusLostEvent;
 import org.jglrxavpok.trui.events.UIEvent;
+import org.jglrxavpok.trui.render.TruiImage;
 import org.jglrxavpok.trui.style.DefaultStyle;
 import org.jglrxavpok.trui.style.TruiStyle;
+import org.jglrxavpok.trui.utils.TruiResource;
 
 import java.io.InputStream;
 import java.util.LinkedList;
@@ -31,10 +33,12 @@ public class TruiContext {
     private float height;
     private TruiScreen currentScreen;
     private TruiBackend backend;
-    private UIRenderer UIRenderer;
+    private UIRenderer uiRenderer;
     private TruiFontFactory fontFactory;
     private TruiComponent focused;
     private Map<String, InputStream> registredFontStreams;
+    private ResourceLoader resourceLoader;
+    private ImageLoader imageLoader;
 
     public TruiContext(float contextWidth, float contextHeight) {
         style = new DefaultStyle();
@@ -50,8 +54,10 @@ public class TruiContext {
 
     public void setBackend(TruiBackend backend) {
         this.backend = backend;
-        UIRenderer = backend.createComponentRenderer(this);
+        uiRenderer = backend.createComponentRenderer(this);
         fontFactory = backend.createFontFactory(this, fontCache);
+        resourceLoader = backend.createResourceLoader(this);
+        imageLoader = backend.createImageLoader(this);
     }
 
     public TruiScreen getDefaultScreen() {
@@ -180,20 +186,20 @@ public class TruiContext {
      * Be aware of your backend when using the method because some graphical library only allow one thread to use the library (ie OpenGL)
      */
     public void renderAll() {
-        if(UIRenderer == null)
+        if(uiRenderer == null)
             throw new NullPointerException("No component renderer registred with context. Probably that no backend has been set");
-        UIRenderer.startRendering();
+        uiRenderer.startRendering();
         renderPanel(getCurrentScreen());
-        UIRenderer.endRendering();
+        uiRenderer.endRendering();
     }
 
     private void renderPanel(TruiPanel panel) {
-        UIRenderer.renderComponent(panel); // render behind everything
+        uiRenderer.renderComponent(panel); // render behind everything
         for(TruiComponent c : panel.getChildren()) {
             if(c instanceof TruiPanel) {
                 renderPanel((TruiPanel) c);
             } else {
-                UIRenderer.renderComponent(c);
+                uiRenderer.renderComponent(c);
             }
         }
     }
@@ -228,5 +234,19 @@ public class TruiContext {
 
     public void setStyle(TruiStyle style) {
         this.style = style;
+    }
+
+    public TruiImage getImage(String id) {
+        if(imageLoader == null)
+            throw new NullPointerException("No image loader registred with context. Probably that no backend has been set");
+
+        return imageLoader.load(getResource(id));
+    }
+
+    public TruiResource getResource(String id) {
+        if(resourceLoader == null)
+            throw new NullPointerException("No resource loader registred with context. Probably that no backend has been set");
+
+        return resourceLoader.load(id);
     }
 }

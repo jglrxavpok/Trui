@@ -1,11 +1,9 @@
 package org.jglrxavpok.trui.backends.lwjgl3;
 
 import org.jglrxavpok.trui.TruiContext;
-import org.jglrxavpok.trui.backends.UIRenderer;
-import org.jglrxavpok.trui.backends.FontCache;
-import org.jglrxavpok.trui.backends.TruiBackend;
-import org.jglrxavpok.trui.backends.TruiFontFactory;
+import org.jglrxavpok.trui.backends.*;
 import org.jglrxavpok.trui.backends.lwjgl3.nvg.NanoVGContext;
+import org.jglrxavpok.trui.utils.ImageTranslator;
 import org.lwjgl.nanovg.NanoVGGL2;
 import org.lwjgl.nanovg.NanoVGGL3;
 import org.lwjgl.nanovg.NanoVGGLES2;
@@ -29,21 +27,6 @@ public class LWJGLBackend implements TruiBackend {
         this.glVersion = glVersion;
     }
 
-    private File getFontFile(String name) throws ReflectiveOperationException {
-        FontManager manager = FontManagerFactory.getInstance();
-        Font f = new Font(name, 0, 10);
-
-        Font2D f2d = manager.findFont2D(f.getFontName(), f.getStyle(),
-                FontManager.LOGICAL_FALLBACK).handle.font2D;
-
-        Field platName = PhysicalFont.class.getDeclaredField("platName");
-        platName.setAccessible(true);
-        String fontPath = (String)platName.get(f2d);
-        platName.setAccessible(false);
-
-        return new File(fontPath);
-    }
-
     @Override
     public String getName() {
         return "LWJGL3";
@@ -64,9 +47,19 @@ public class LWJGLBackend implements TruiBackend {
 
     }
 
+    @Override
+    public ResourceLoader createResourceLoader(TruiContext context) {
+        return new ClasspathResourceLoader();
+    }
+
+    @Override
+    public ImageLoader createImageLoader(TruiContext context) {
+        return new LWJGLImageLoader();
+    }
+
     public NanoVGContext getNVGContext() {
         if(nvgContext == null) {
-            // lazy initialization of the NanoVG context in case the renderer is created at a time the OpenGL context is not available
+            // lazy initialization of the NanoVG context in case the backend is created at a time the OpenGL context is not available
             int flags = NanoVGGL2.NVG_ANTIALIAS | NanoVGGL2.NVG_DEBUG;
             switch (glVersion) {
                 case GL2:
