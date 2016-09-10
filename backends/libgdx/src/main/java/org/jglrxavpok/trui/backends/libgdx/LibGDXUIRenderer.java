@@ -79,7 +79,7 @@ public class LibGDXUIRenderer implements UIRenderer {
                     if(!cachedPolygons.containsKey(r)) {
                         cachedPolygons.put(r, buildPolygonRegion(r, height));
                     }
-                    spriteBatch.setColor(color.getARGBInt());
+                    spriteBatch.setColor(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha());
                     spriteBatch.draw(cachedPolygons.get(r),0,0);
                 }
                 break;
